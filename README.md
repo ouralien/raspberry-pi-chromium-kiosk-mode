@@ -121,10 +121,10 @@ fi
 while true; do
 
 	# Clean up previously running apps, gracefully at first then harshly
-	killall -TERM chromium 2>/dev/null;
+	killall -TERM chromium-browser 2>/dev/null;
 	killall -TERM matchbox-window-manager 2>/dev/null;
 	sleep 2;
-	killall -9 chromium 2>/dev/null;
+	killall -9 chromium-browser 2>/dev/null;
 	killall -9 matchbox-window-manager 2>/dev/null;
 
 	# Clean out existing profile information
@@ -150,7 +150,7 @@ while true; do
 	matchbox-window-manager -use_titlebar no -use_cursor no &
 
 	# Start the browser (See http://peter.sh/experiments/chromium-command-line-switches/)
-	chromium-browser  --app=https://goo.gl/AYPGmF
+	chromium-browser  --app='https://google.com'
 
 done;
 ```
