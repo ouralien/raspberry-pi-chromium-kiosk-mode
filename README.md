@@ -41,18 +41,29 @@ Then reboot : `sudo reboot`
 ```
 wget http://ftp.acc.umu.se/mirror/cdimage/snapshot/Debian/pool/main/libg/libgcrypt11/libgcrypt11_1.5.3-5_armhf.deb
 
-dpkg -i libgcrypt11_1.5.3-5_armhf.deb
+sudo dpkg -i libgcrypt11_1.5.3-5_armhf.deb
 ```
 
-### Installation of Chromium browser 45
+### Installation of Chromium browser 48
 
-`https://launchpad.net/ubuntu/vivid/armhf/chromium-browser/45.0.2454.101-0ubuntu0.15.04.1.1183`
-
-`https://launchpad.net/ubuntu/vivid/armhf/chromium-codecs-ffmpeg-extra/45.0.2454.101-0ubuntu0.15.04.1.1183`
+`https://launchpad.net/ubuntu/vivid/armhf/chromium-browser/`
 
 ```
-dpkg -i chromium-codecs-ffmpeg-extra_45.0.2454.101-0ubuntu0.15.04.1.1183_armhf.deb \ 
-	chromium-browser_45.0.2454.101-0ubuntu0.15.04.1.1183_armhf.deb
+# Download chromium package
+wget http://launchpadlibrarian.net/234969703/chromium-browser_48.0.2564.82-0ubuntu0.15.04.1.1193_armhf.deb
+```
+
+`https://launchpad.net/ubuntu/vivid/armhf/chromium-codecs-ffmpeg-extra/`
+
+```
+# Download ffmpeg extra package
+wget http://launchpadlibrarian.net/234969705/chromium-codecs-ffmpeg-extra_48.0.2564.82-0ubuntu0.15.04.1.1193_armhf.deb
+```
+
+```
+# Install Packages
+sudo dpkg -i chromium-codecs-ffmpeg-extra_48.0.2564.82-0ubuntu0.15.04.1.1193_armhf.deb \ 
+	chromium-browser_48.0.2564.82-0ubuntu0.15.04.1.1193_armhf.deb
 ```
 
 ### Pi Config 
@@ -83,7 +94,7 @@ over_voltage=2
 gpu_mem=128
 ```
 
-### Startup Run Commands
+### Method 1 : rc.local + xinit script
 
 `/etc/rc.local`
 
@@ -112,7 +123,7 @@ if [ -f /boot/xinitrc ]; then
 	su - pi -c 'startx' &
 fi
 ```
-### Xinit Script
+
 
 `/boot/xinitrc`
 
@@ -153,6 +164,23 @@ while true; do
 	chromium-browser  --app='https://google.com'
 
 done;
+```
+
+### Method 2 : lxsession autostart
+
+`nano .config/lxsession/LXDE-pi/autostart`
+
+```
+@lxpanel --profile LXDE-pi
+@pcmanfm --desktop --profile LXDE-pi
+@chromium-browser --kiosk --disable-session-crashed-bubble --disable-infobars https://www.google.com
+```
+
+`sudo nano /etc/lightdm/lightdm.conf`
+
+```
+# don't sleep the screen
+xserver-command=X -s 0 dpms
 ```
 
 ### Credits
